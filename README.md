@@ -73,7 +73,7 @@ with the spelling and grammar fixed: {prompt}")
 print(response)
 ```
 
-`OUTPUT -->
+```OUTPUT -->
 You are a bank customer service bot.
 Your task is to assess customer intent and categorize the customer inquiry following the inquiry text into one of the following predefined categories:
 
@@ -105,7 +105,7 @@ Category: customer service
 <<<
 Inquiry: {inquiry}
 >>>
-Category:`
+Category:```
 
 Now using the corrected prompt let's try out the model by passing the inquiry which will enter in `{inquiry}`.<br>
 ```python
