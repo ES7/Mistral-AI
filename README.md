@@ -383,3 +383,162 @@ For our applications, we might also want to consider pricing. Mistral offers com
 **1. Mistral-small →** simple tasks that one can do in bulk (classification, customer support text generation).<br>
 **2. Mistral-medium →** intermediate tasks that require moderate reasoning (data extraction, summarizing a document, writing emails, writing a job description, writing product descriptions).<br>
 **3. Mistral-large →** complex tasks that require large reasoning capabilities or are highly specialized (synthetic text generation, code generation, RAG, Agents).<br>
+
+```python
+from helper import load_mistral_api_key
+api_key, dlai_endpoint = load_mistral_api_key(ret_key=True)
+```
+```python
+import os
+from mistralai.client import MistralClient
+from mistralai.models.chat_completion import ChatMessage
+
+def mistral(user_message, model="mistral-small-latest", is_json=False):
+    client = MistralClient(api_key=api_key, endpoint=dlai_endpoint)
+    messages = [ChatMessage(role="user", content=user_message)]
+
+    if is_json:
+        chat_response = client.chat(
+            model=model, messages=messages, response_format={"type": "json_object"}
+        )
+    else:
+        chat_response = client.chat(model=model, messages=messages)
+
+    return chat_response.choices[0].message.content
+```
+#### Mistral Small
+First we will use Mistral-small for simpler tasks like classification.
+```python
+prompt = """
+Classify the following email to determine if it is spam or not.
+Only respond with the exact text "Spam" or "Not Spam". 
+
+# Email:
+🎉 Urgent! You've Won a $1,000,000 Cash Prize! 
+💰 To claim your prize, please click on the link below: 
+https://bit.ly/claim-your-prize
+"""
+```
+Let's try to classify an email as spam or not spam.
+```python
+mistral(prompt, model="mistral-small-latest")
+```
+`OUTPUT --> 'Spam'`
+All the models are good at such tasks but using mistral-small for such tasks is more effective and fast.<br>
+
+
+#### Mistral Medium
+Now we will use Mistral-medium to perform some intermediate tasks like language transformation.
+```python
+prompt = """
+Compose a welcome email for new customers who have just made 
+their first purchase with your product. 
+Start by expressing your gratitude for their business, 
+and then convey your excitement for having them as a customer. 
+Include relevant details about their recent order. 
+Sign the email with "The Fun Shop Team".
+
+Order details:
+- Customer name: Anna
+- Product: hat 
+- Estimate date of delivery: Feb. 25, 2024
+- Return policy: 30 days
+"""
+```
+Here we asking the model to compose emails for new customers who have just made their first purchase with our product. Make sure we have mentioned the order details in the prompt.
+```python
+response_medium = mistral(prompt, model="mistral-medium-latest")
+print(response_medium)
+```
+`OUTPUT --> 
+Subject: Welcome to The Fun Shop, Anna! Your Hat is on its Way
+
+Dear Anna,
+
+We are thrilled to welcome you to The Fun Shop community! We are beyond grateful for your decision to make your first purchase with us, and we hope this marks the beginning of a long and enjoyable shopping experience.
+
+We are excited to let you know that your fantastic new hat is on its way! Our team has carefully packaged it, and it's now in the capable hands of our shipping partner. You can expect your hat to arrive at your doorstep by Feb. 25, 2024.
+
+In the meantime, please take a moment to familiarize yourself with our return policy. We believe in customer satisfaction and offer a 30-day return policy, should you need to exchange or return your hat for any reason. If you have any questions or concerns, please don't hesitate to reach out to our friendly customer support team at support@thefunshop.com.
+
+Once again, thank you for choosing The Fun Shop for your shopping needs. We are delighted to have you with us and look forward to serving you in the future.
+
+Best regards,
+
+The Fun Shop Team
+
+www.thefunshop.com
+support@thefunshop.com
+(123) 456-7890
+`
+
+
+#### Mistral Large
+Mistral-large is great for complex tasks that require advanced reasoning capabilities or that are highly specialized. 
+```python
+prompt = """
+Calculate the difference in payment dates between the two \
+customers whose payment amounts are closest to each other \
+in the following dataset. Do not write code.
+
+# dataset: 
+'{
+  "transaction_id":{"0":"T1001","1":"T1002","2":"T1003","3":"T1004","4":"T1005"},
+    "customer_id":{"0":"C001","1":"C002","2":"C003","3":"C002","4":"C001"},
+    "payment_amount":{"0":125.5,"1":89.99,"2":120.0,"3":54.3,"4":210.2},
+"payment_date":{"0":"2021-10-05","1":"2021-10-06","2":"2021-10-07","3":"2021-10-05","4":"2021-10-08"},
+    "payment_status":{"0":"Paid","1":"Unpaid","2":"Paid","3":"Paid","4":"Pending"}
+}'
+"""
+```
+In this example let's ask the model to calculate the difference in payment dates between the two customers whose payment amount are close to each other in a given dataset. First let's try using mistral-small on this task.
+```python
+response_small = mistral(prompt, model="mistral-small-latest")
+print(response_small)
+```
+`OUTPUT --> 
+To find the difference in payment dates between the two customers whose payment amounts are closest to each other, follow these steps:
+
+1. Identify the unique payment amounts in the dataset: 125.5, 89.99, 120.0, 54.3, and 210.2
+2. Sort these payment amounts: 54.3, 89.99, 120.0, 125.5, 210.2
+3. Find the smallest difference between consecutive payment amounts: 120.0 - 89.99 = 30.01 and 125.5 - 120.0 = 5.5. The smallest difference is 5.5.
+4. Identify the customers who made these closest payments: For 120.0, it's C003, and for 125.5, it's C001.
+5. Find the payment dates for these customers: The payment date for C003 is 2021-10-07, and the payment date for C001 is 2021-10-08.
+6. Calculate the difference in payment dates: Subtract the earlier payment date from the later one: 2021-10-08 - 2021-10-07 = 1 day.
+
+Therefore, the difference in payment dates between the two customers whose payment amounts are closest to each other is 1 day.
+`
+Here we can see that the mistral-small gives incorrect answer. But since the model results are probabilistic if we actually run it multiple times it might sometimes give the correct result.<br>
+Now let's try to perform the same task on mistral-medium.
+```python
+response_medium = mistral(prompt, model="mistral-medium-latest")
+print(response_medium)
+```
+`OUTPUT --> 
+First, we need to find the two payment amounts that are closest to each other. These are 125.5 and 120.0, which belong to transactions T1001 and T1003 respectively. The payment dates for these transactions are "2021-10-05" and "2021-10-07". To find the difference in payment dates, we need to convert these dates to a numerical format that can be subtracted. Once converted, the difference in payment dates is 2 days.
+`
+Now let's try out mistral-large
+```python
+response_large = mistral(prompt, model="mistral-large-latest")
+print(response_large)
+```
+`OUTPUT --> 
+To solve this problem without writing code, we first need to identify the two customers whose payment amounts are closest to each other. Looking at the dataset, the payment amounts are:
+
+- C001: 125.5, 210.2
+- C002: 89.99, 54.3
+- C003: 120.0
+
+The closest pair of payments seems to be 125.5 and 120.0 from customers C001 and C003. The difference between these amounts is 5.5.
+
+Next, we need to calculate the difference in payment dates between these two customers. The payment dates are:
+
+- C001: 2021-10-05, 2021-10-08
+- C002: 2021-10-06, 2021-10-05
+- C003: 2021-10-07
+
+The relevant payment dates for our two customers are 2021-10-05 for C001 and 2021-10-07 for C003. The difference between these dates is 2 days.
+
+So, the difference in payment dates between the two customers whose payment amounts are closest to each other is 2 days.
+`
+As we can see mistral-large splits the question into multiple steps and is able to give us the right answer.
