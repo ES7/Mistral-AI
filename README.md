@@ -375,7 +375,7 @@ def mistral(user_message,
 
 ## 2. Model Selection
 Mistral AI provides 5 API endpoints featuring 5 leading language models.<br>
-<img src="models.png" width="400" height="150">
+<img src="models.png" width="150" height="150">
 <img src="graph.png" width="400" height="150">
 Looking at the model performance such as the Multitask Language Understanding (MMLU) task. Mistral-large outperforms the rest of the models in every benchmark including reasoning, multilingual tasks, mathematics and coding. However performance might not be the only consideration here.
 For our applications, we might also want to consider pricing. Mistral offers competitive pricing on their models. And it’s worth considering the performance pricing trade-offs.<br>
