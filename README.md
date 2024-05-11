@@ -376,9 +376,10 @@ def mistral(user_message,
 ## 2. Model Selection
 Mistral AI provides 5 API endpoints featuring 5 leading language models.<br>
 ![](models.png)
+![](graph.png)
 Looking at the model performance such as the Multitask Language Understanding (MMLU) task. Mistral-large outperforms the rest of the models in every benchmark including reasoning, multilingual tasks, mathematics and coding. However performance might not be the only consideration here.
 For our applications, we might also want to consider pricing. Mistral offers competitive pricing on their models. And it’s worth considering the performance pricing trade-offs.<br>
-![](graph.png)
+![](comp.png)
 **1. Mistral-small →** simple tasks that one can do in bulk (classification, customer support text generation).<br>
 **2. Mistral-medium →** intermediate tasks that require moderate reasoning (data extraction, summarizing a document, writing emails, writing a job description, writing product descriptions).<br>
 **3. Mistral-large →** complex tasks that require large reasoning capabilities or are highly specialized (synthetic text generation, code generation, RAG, Agents).<br>
