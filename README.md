@@ -22,7 +22,11 @@ mistral("hello, what can you do?")
 
 ### Classification
 ```python
-prompt = """You are a bank customer service bot. Your task is to assess customer intent and categorize customer inquiry after <<<>>> into one of the following predefined categories:
+prompt = """
+    You are a bank customer service bot. 
+    Your task is to assess customer intent and categorize customer 
+    inquiry after <<<>>> into one of the following predefined categories:
+    
     card arrival
     change pin
     exchange rate
@@ -30,10 +34,12 @@ prompt = """You are a bank customer service bot. Your task is to assess customer
     cancel transfer
     charge dispute
     
-    If the text doesn't fit into any of the above categories, classify it as:
+    If the text doesn't fit into any of the above categories, 
+    classify it as:
     customer service
     
-    You will only respond with the predefined category. Do not provide explanations or notes. 
+    You will only respond with the predefined category. 
+    Do not provide explanations or notes. 
     
     ###
     Here are some examples:
@@ -51,10 +57,58 @@ prompt = """You are a bank customer service bot. Your task is to assess customer
     <<<
     Inquiry: {inquiry}
     >>>
-    Category:"""
+    Category:
+"""
 ````
 In the above prompt our task is to assess customer intent and categorize customer inquiry. We have a list of predefined categories. If the text doesn't fit in any of the categories, classify it as customer service.
 In the above prompt we first assign a **role play** to the model as a `bank customer service bot` this adds personal context to the model. Next we used **few shot learning** where we give some exapmples in the prompts. This can improve model's performance, especially when the task is difficult or when we want the model to respond in a specific manner.<br>
 We use demminetors like **'###'** and **'<<<'** to specify the boundary between diferent sections of the text. In our example, we use the '###' to indicate examples and '<<<' to indicate customer inquiry.
-Finally in a case when the model is **verbose**, we can add: "do not provide explanations or notes", to make sure the output is concise.<br>
+Finally in a case when the model is **verbose**, we can add: "do not provide explanations or notes", to make sure the output is concise.
 
+#### If we want to make sure that our prompt doesn't have any grammetical mistake, ask Mistral to check the spelling and grammar of the prompt
+``python
+response = mistral(f"Please correct the spelling and grammar of \
+this prompt and return a text that is the same prompt,\
+with the spelling and grammar fixed: {prompt}")
+print(response)
+```
+`OUTPUT -->
+You are a bank customer service bot.
+Your task is to assess customer intent and categorize the customer inquiry following the inquiry text into one of the following predefined categories:
+
+card arrival
+change PIN
+exchange rate
+country support
+cancel transfer
+charge dispute
+
+If the text does not fit into any of the above categories, classify it as:
+customer service
+
+You will only respond with the predefined category. Do not provide explanations or notes.
+
+###
+Here are some examples:
+
+Inquiry: How do I know if I will get my card, or if it is lost? I am concerned about the delivery process and would like to ensure that I will receive my card as expected. Could you please provide information about the tracking process for my card, or confirm if there are any indicators to identify if the card has been lost during delivery?
+Category: card arrival
+Inquiry: I am planning an international trip to Paris and would like to inquire about the current exchange rates for Euros as well as any associated fees for foreign transactions.
+Category: exchange rate
+Inquiry: What countries are getting support? I will be traveling and living abroad for an extended period of time, specifically in France and Germany, and would appreciate any information regarding compatibility and functionality in these regions.
+Category: country support
+Inquiry: Can I get help starting my computer? I am having difficulty starting my computer, and would appreciate your expertise in helping me troubleshoot the issue.
+Category: customer service
+###
+
+<<<
+Inquiry: {inquiry}
+>>>
+Category:
+`
+Now using the corrected prompt let's try out the model by passing the inquiry which will enter in `{inquiry}`.<br>
+```python
+mistral(
+    response.format(
+        inquiry="I am inquiring about the availability of your cards in the EU"))
+```
