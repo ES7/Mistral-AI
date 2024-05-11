@@ -14,12 +14,15 @@ from helper import load_mistral_api_key
 load_mistral_api_key()
 ```
 
-`from helper import mistral` <br>
-`mistral("hello, what can you do?")` <br>
-`"Hello! I'm here to help answer your questions, provide information, offer explanations, and even share a joke or two. I can assist with a wide range of topics, including but not limited to, general knowledge, science, history, literature, math, and more. I can also help explain concepts, solve problems, and offer guidance on various subjects. What can I assist you with today?"`
+```python
+from helper import mistral
+mistral("hello, what can you do?")
+```
+`OUTPUT -->  "Hello! I'm here to help answer your questions, provide information, offer explanations, and even share a joke or two. I can assist with a wide range of topics, including but not limited to, general knowledge, science, history, literature, math, and more. I can also help explain concepts, solve problems, and offer guidance on various subjects. What can I assist you with today?"`
 
 ### Classification
-`prompt = """You are a bank customer service bot. Your task is to assess customer intent and categorize customer inquiry after <<<>>> into one of the following predefined categories:
+```python
+prompt = """You are a bank customer service bot. Your task is to assess customer intent and categorize customer inquiry after <<<>>> into one of the following predefined categories:
     card arrival
     change pin
     exchange rate
@@ -48,9 +51,10 @@ load_mistral_api_key()
     <<<
     Inquiry: {inquiry}
     >>>
-    Category:"""`<br>
-`In the above prompt our task is to assess customer intent and categorize customer inquiry. We have a list of predefined categories. If the text doesn't fit in any of the categories, classify it as customer service.
-In the above prompt we first assign a **role play** to the model as a `bank customer service bot` this adds personal context to the model. Next we used **few shot learning** where we give some exapmples in the prompts. This can improve model's performance, especially when the task is difficult or when we want the model to respond in a specific manner.
+    Category:"""
+````
+In the above prompt our task is to assess customer intent and categorize customer inquiry. We have a list of predefined categories. If the text doesn't fit in any of the categories, classify it as customer service.
+In the above prompt we first assign a **role play** to the model as a `bank customer service bot` this adds personal context to the model. Next we used **few shot learning** where we give some exapmples in the prompts. This can improve model's performance, especially when the task is difficult or when we want the model to respond in a specific manner.<br>
 We use demminetors like **'###'** and **'<<<'** to specify the boundary between diferent sections of the text. In our example, we use the '###' to indicate examples and '<<<' to indicate customer inquiry.
-Finally in a case when the model is **verbose**, we can add: "do not provide explanations or notes", to make sure the output is concise.`
+Finally in a case when the model is **verbose**, we can add: "do not provide explanations or notes", to make sure the output is concise.<br>
 
