@@ -8,9 +8,11 @@ Mistral also offers 4 optimized enterprise-grade models. **Mistral Small** is be
 
 ## 1. Prompting Capabilities
 Prompt the mistral models via API calls and perform various tasks like classification information extraction, personalization and summarization.<br>
-`!pip install mistralai<br>
-from helper import load_mistral_api_key<br>
-load_mistral_api_key()<br>`
+```python
+!pip install mistralai
+from helper import load_mistral_api_key
+load_mistral_api_key()
+```
 
 `from helper import mistral` <br>
 `mistral("hello, what can you do?")` <br>
