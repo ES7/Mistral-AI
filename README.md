@@ -72,8 +72,8 @@ this prompt and return a text that is the same prompt,\
 with the spelling and grammar fixed: {prompt}")
 print(response)
 ```
-`
-OUTPUT -->
+
+`OUTPUT -->
 You are a bank customer service bot.
 Your task is to assess customer intent and categorize the customer inquiry following the inquiry text into one of the following predefined categories:
 
@@ -105,8 +105,7 @@ Category: customer service
 <<<
 Inquiry: {inquiry}
 >>>
-Category:
-`
+Category:`
 
 Now using the corrected prompt let's try out the model by passing the inquiry which will enter in `{inquiry}`.<br>
 ```python
@@ -218,8 +217,8 @@ In the above prompt we have provided some numbers about the interest rates in th
 response = mistral(prompt)
 print(response)
 ```
-`
-OUTPUT -->
+
+`OUTPUT -->
 Subject: Mortgage Rates Inquiry - Your 30-Year and 15-Year Fixed-Rate Options
 
 Dear Anna,
@@ -234,8 +233,8 @@ I hope this information is helpful, and I'm here to answer any other questions y
 
 Best regards,
 
-Lender Customer Support
-`
+Lender Customer Support`
+
 We can see that we get a personalized email to Anna answering her questions based on the facts provided. With this kind of prompt, we can easily create our own customer service bot. Answer questions about our product. It is important to use clear and concise language when presenting these facts or your product information. This can help the model to provide accurate and quick responses to customer queries.
 
 ### Summarization
@@ -296,6 +295,7 @@ We have given the `{newsletter}` and provided some instructions followed by some
 response = mistral(prompt)
 print(response)
 ```
+
 `OUTPUT -->
 # Summary
 Mistral AI, a European AI startup, introduced two new large language models, Mistral Large and Mistral Small, and formed a strategic alliance with Microsoft. Microsoft has invested $16.3 million in Mistral AI and agreed to distribute Mistral Large on its Azure platform while allowing Mistral AI to use Azure's computing infrastructure. Mistral AI's new models outperformed several competitors on the MMLU benchmark but fell short of GPT-4. The partnership between Mistral AI and Microsoft has been met with mixed reactions from European lawmakers and regulators.
@@ -338,8 +338,8 @@ Microsoft's $16.3 million investment in Mistral AI could provide the tech giant 
 
 Mistral AI's partnership with Microsoft reflects the current landscape of AI development and distribution, where significant power remains concentrated in large, U.S.-headquartered cloud companies. Despite being a European startup, Mistral AI has turned to a U.S. company for crucial processing power and greater customer access. This highlights the challenges faced by European AI startups in competing with their U.S. counterparts.
 
-In conclusion, Mistral AI's new models and partnership with Microsoft represent a significant step forward for the European AI startup. However, it also underscores the challenges and potential pitfalls of EU-U.S. AI collaborations, particularly in terms of competition and regulation.
-`
+In conclusion, Mistral AI's new models and partnership with Microsoft represent a significant step forward for the European AI startup. However, it also underscores the challenges and potential pitfalls of EU-U.S. AI collaborations, particularly in terms of competition and regulation.`
+
 
 ### The Mistral Python client
 - Below is the helper function that we imported from helper.py and used in this notebook.
