@@ -219,7 +219,8 @@ response = mistral(prompt)
 print(response)
 ```
 
-`OUTPUT -->
+```python
+OUTPUT -->
 Subject: Mortgage Rates Inquiry - Your 30-Year and 15-Year Fixed-Rate Options
 
 Dear Anna,
@@ -234,7 +235,8 @@ I hope this information is helpful, and I'm here to answer any other questions y
 
 Best regards,
 
-Lender Customer Support`
+Lender Customer Support
+```
 
 We can see that we get a personalized email to Anna answering her questions based on the facts provided. With this kind of prompt, we can easily create our own customer service bot. Answer questions about our product. It is important to use clear and concise language when presenting these facts or your product information. This can help the model to provide accurate and quick responses to customer queries.
 
