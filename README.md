@@ -72,7 +72,8 @@ this prompt and return a text that is the same prompt,\
 with the spelling and grammar fixed: {prompt}")
 print(response)
 ```
-`OUTPUT -->
+`
+OUTPUT -->
 You are a bank customer service bot.
 Your task is to assess customer intent and categorize the customer inquiry following the inquiry text into one of the following predefined categories:
 
@@ -217,7 +218,8 @@ In the above prompt we have provided some numbers about the interest rates in th
 response = mistral(prompt)
 print(response)
 ```
-`OUTPUT -->
+`
+OUTPUT -->
 Subject: Mortgage Rates Inquiry - Your 30-Year and 15-Year Fixed-Rate Options
 
 Dear Anna,
