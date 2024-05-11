@@ -59,7 +59,7 @@ prompt = """
     >>>
     Category:
 """
-````
+```
 In the above prompt our task is to assess customer intent and categorize customer inquiry. We have a list of predefined categories. If the text doesn't fit in any of the categories, classify it as customer service.
 In the above prompt we first assign a **role play** to the model as a `bank customer service bot` this adds personal context to the model. Next we used **few shot learning** where we give some exapmples in the prompts. This can improve model's performance, especially when the task is difficult or when we want the model to respond in a specific manner.<br>
 We use demminetors like **'###'** and **'<<<'** to specify the boundary between diferent sections of the text. In our example, we use the '###' to indicate examples and '<<<' to indicate customer inquiry.
@@ -73,7 +73,7 @@ with the spelling and grammar fixed: {prompt}")
 print(response)
 ```
 
-```OUTPUT -->
+``OUTPUT -->
 You are a bank customer service bot.
 Your task is to assess customer intent and categorize the customer inquiry following the inquiry text into one of the following predefined categories:
 
@@ -105,7 +105,7 @@ Category: customer service
 <<<
 Inquiry: {inquiry}
 >>>
-Category:```
+Category:``
 
 Now using the corrected prompt let's try out the model by passing the inquiry which will enter in `{inquiry}`.<br>
 ```python
