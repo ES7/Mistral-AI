@@ -423,8 +423,8 @@ Let's try to classify an email as spam or not spam.
 ```python
 mistral(prompt, model="mistral-small-latest")
 ```
-`OUTPUT --> 'Spam'`
-All the models are good at such tasks but using mistral-small for such tasks is more effective and fast.<br>
+`OUTPUT --> 'Spam'`<br>
+All the models are good at such tasks but using mistral-small for such tasks is more effective and fast.
 
 
 #### Mistral Medium
@@ -450,7 +450,8 @@ Here we asking the model to compose emails for new customers who have just made 
 response_medium = mistral(prompt, model="mistral-medium-latest")
 print(response_medium)
 ```
-`OUTPUT --> 
+```python
+OUTPUT --> 
 Subject: Welcome to The Fun Shop, Anna! Your Hat is on its Way
 
 Dear Anna,
@@ -470,7 +471,7 @@ The Fun Shop Team
 www.thefunshop.com
 support@thefunshop.com
 (123) 456-7890
-`
+```
 
 
 #### Mistral Large
@@ -496,7 +497,8 @@ In this example let's ask the model to calculate the difference in payment dates
 response_small = mistral(prompt, model="mistral-small-latest")
 print(response_small)
 ```
-`OUTPUT --> 
+```python
+OUTPUT --> 
 To find the difference in payment dates between the two customers whose payment amounts are closest to each other, follow these steps:
 
 1. Identify the unique payment amounts in the dataset: 125.5, 89.99, 120.0, 54.3, and 210.2
@@ -507,22 +509,24 @@ To find the difference in payment dates between the two customers whose payment 
 6. Calculate the difference in payment dates: Subtract the earlier payment date from the later one: 2021-10-08 - 2021-10-07 = 1 day.
 
 Therefore, the difference in payment dates between the two customers whose payment amounts are closest to each other is 1 day.
-`
+```
 Here we can see that the mistral-small gives incorrect answer. But since the model results are probabilistic if we actually run it multiple times it might sometimes give the correct result.<br>
 Now let's try to perform the same task on mistral-medium.
 ```python
 response_medium = mistral(prompt, model="mistral-medium-latest")
 print(response_medium)
 ```
-`OUTPUT --> 
+```python
+OUTPUT --> 
 First, we need to find the two payment amounts that are closest to each other. These are 125.5 and 120.0, which belong to transactions T1001 and T1003 respectively. The payment dates for these transactions are "2021-10-05" and "2021-10-07". To find the difference in payment dates, we need to convert these dates to a numerical format that can be subtracted. Once converted, the difference in payment dates is 2 days.
-`
+```
 Now let's try out mistral-large
 ```python
 response_large = mistral(prompt, model="mistral-large-latest")
 print(response_large)
 ```
-`OUTPUT --> 
+```python
+OUTPUT --> 
 To solve this problem without writing code, we first need to identify the two customers whose payment amounts are closest to each other. Looking at the dataset, the payment amounts are:
 
 - C001: 125.5, 210.2
@@ -540,5 +544,140 @@ Next, we need to calculate the difference in payment dates between these two cus
 The relevant payment dates for our two customers are 2021-10-05 for C001 and 2021-10-07 for C003. The difference between these dates is 2 days.
 
 So, the difference in payment dates between the two customers whose payment amounts are closest to each other is 2 days.
-`
+```
 As we can see mistral-large splits the question into multiple steps and is able to give us the right answer.
+
+
+#### Numerical
+Let's try another example in which we will ask the models to calculate expenses on each categories like resturants, groceries, stuffed animals and props.
+```python
+transactions = """
+McDonald's: 8.40
+Safeway: 10.30
+Carrefour: 15.00
+Toys R Us: 20.50
+Panda Express: 10.20
+Beanie Baby Outlet: 25.60
+World Food Wraps: 22.70
+Stuffed Animals Shop: 45.10
+Sanrio Store: 85.70
+"""
+
+prompt = f"""
+Given the purchase details, how much did I spend on each category:
+1) restaurants
+2) groceries
+3) stuffed animals and props
+{transactions}
+"""
+```
+```python
+response_small = mistral(prompt, model="mistral-small-latest")
+print(response_small)
+```
+```python
+OUTPUT -->
+To calculate your spending in each category, I'll first assign the transactions to their respective categories:
+
+1) Restaurants: McDonald's and Panda Express
+   - McDonald's: $8.40
+   - Panda Express: $10.20
+   Total spent on restaurants: $18.60
+
+2) Groceries: Safeway and Carrefour
+   - Safeway: $10.30
+   - Carrefour: $15.00
+   Total spent on groceries: $25.30
+
+3) Stuffed animals and props: Toys R Us, Beanie Baby Outlet, World Food Wraps, Stuffed Animals Shop, Sanrio Store
+   - Toys R Us: $20.50
+   - Beanie Baby Outlet: $25.60
+   - World Food Wraps: $22.70
+   - Stuffed Animals Shop: $45.10
+   - Sanrio Store: $85.70
+   Total spent on stuffed animals and props: $200.20
+
+So, you spent:
+1) $18.60 on restaurants
+2) $25.30 on groceries
+3) $200.20 on stuffed animals and props
+```
+Running mistral-small on this we can observe some mistakes in the output. Let's try running mistral-large.
+```python
+response_large = mistral(prompt, model="mistral-large-latest")
+print(response_large)
+```
+```python
+OUTPUT -->
+Based on the purchase details you provided, here's the breakdown of your spending in each category:
+
+1) Restaurants:
+   - McDonald's: $8.40
+   - Panda Express: $10.20
+   - World Food Wraps: $22.70
+   Total spent on restaurants: $41.30
+
+2) Groceries:
+   - Safeway: $10.30
+   - Carrefour: $15.00
+   Total spent on groceries: $25.30
+
+3) Stuffed animals and props:
+   - Toys R Us: $20.50
+   - Beanie Baby Outlet: $25.60
+   - Stuffed Animals Shop: $45.10
+   - Sanrio Store: $85.70
+   Total spent on stuffed animals and props: $177.90
+
+So, you spent $41.30 on restaurants, $25.30 on groceries, and $177.90 on stuffed animals and props.
+```
+Mistral-large gives correct answers for each categories.
+
+#### Writing and Checking Code
+```python
+user_message = """
+Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+You can return the answer in any order.
+
+Your code should pass these tests:
+
+assert twoSum([2,7,11,15], 9) == [0,1]
+assert twoSum([3,2,4], 6) == [1,2]
+assert twoSum([3,3], 6) == [0,1]
+"""
+```
+```python
+print(mistral(user_message, model="mistral-large-latest"))
+```
+```python
+OUTPUT -->
+Here is a Python solution for your problem:
+
+```python
+def twoSum(nums, target):
+    if len(nums) <= 1:
+        return False
+
+    dict_nums = {}
+    for i, num in enumerate(nums):
+        if num in dict_nums:
+            return [dict_nums[num], i]
+        else:
+            dict_nums[target - num] = i
+
+    return False
+```
+
+This function uses a dictionary to store the numbers in the array and their indices. It then iterates over the array and for each number, it checks if the difference between the target and the current number is in the dictionary. If it is, it means that we have found two numbers that add up to the target and we return their indices. If we finish iterating over the array without finding a pair of numbers that add up to the target, we return False.
+
+The tests you provided can be used to verify the function:
+
+```python
+assert twoSum([2,7,11,15], 9) == [0,1]
+assert twoSum([3,2,4], 6) == [1,2]
+assert twoSum([3,3], 6) == [0,1]
+```
+```
