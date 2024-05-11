@@ -656,7 +656,7 @@ print(mistral(user_message, model="mistral-large-latest"))
 OUTPUT -->
 Here is a Python solution for your problem:
 
-```python
+#python
 def twoSum(nums, target):
     if len(nums) <= 1:
         return False
@@ -669,15 +669,35 @@ def twoSum(nums, target):
             dict_nums[target - num] = i
 
     return False
-```
+
 
 This function uses a dictionary to store the numbers in the array and their indices. It then iterates over the array and for each number, it checks if the difference between the target and the current number is in the dictionary. If it is, it means that we have found two numbers that add up to the target and we return their indices. If we finish iterating over the array without finding a pair of numbers that add up to the target, we return False.
 
 The tests you provided can be used to verify the function:
 
-```python
+#python
 assert twoSum([2,7,11,15], 9) == [0,1]
 assert twoSum([3,2,4], 6) == [1,2]
 assert twoSum([3,3], 6) == [0,1]
 ```
+
+#### Natively Fluent in English, French, Spanish, German, and Italian
+We can use Mistral models for more than translating from one language to another. If we are a native Spanish speaker, for instance, we can communicate with Mistral models in Spanish for any of our tasks.
+```python
+user_message = """
+Lequel est le plus lourd une livre de fer ou un kilogramme de plume
+"""
 ```
+```python
+print(mistral(user_message, model="mistral-large-latest"))
+```
+```python
+Une livre de fer et un kilogramme de plumes ont des poids différents.
+
+Une livre (lb) est une unité de poids couramment utilisée aux États-Unis et dans d'autres pays, tandis qu'un kilogramme (kg) est l'unité de poids standard dans le système métrique, utilisé dans le monde entier.
+
+1 kilogramme est approximativement égal à 2,2 livres. Donc, un kilogramme de plumes pèse plus qu'une livre de fer. Cependant, il est important de noter que cela ne signifie pas qu'une seule plume est plus lourde qu'un morceau de fer. La différence de poids provient du fait qu'il y a beaucoup plus de plumes dans un kilogramme que de fer dans une livre.
+```
+
+
+## 3. Function Calling
