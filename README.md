@@ -371,3 +371,6 @@ def mistral(user_message,
         
     return chat_response.choices[0].message.content
 ```
+
+
+## 2. Model Selection
