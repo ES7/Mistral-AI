@@ -7,3 +7,5 @@ Mistral offers **6 models** for all use cases and business needs that we can dow
 Mistral also offers 4 optimized enterprise-grade models. **Mistral Small** is best for lower latency use cases, **Mistral Medium** is suitable for our language based tasks, **Mistral Large** is the flagship model for our most sophisticated needs with advanced reasoning capabilities, it approaches the performance of **GPT-4** and outperforms also has native multilingual capabilities, it offers a **32K tokens** context window. Finally the Embedding Model which offers the SOTA embeddings for text and can be used for many use cases like clustering and classification. We can chat with the Mistral models in **chat.mistral.ai**. To use these models in code we can use **transformers, llama.cpp** or **ollama**. To setup the API key goto **console.mistral.ai**.
 
 ## 1. Prompting Capabilities
+Prompt the mistral models via API calls and perform various tasks like classification information extraction, personalization and summarization.<br>
+```Python !pip install mistralai```
